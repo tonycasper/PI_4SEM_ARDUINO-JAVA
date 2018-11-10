@@ -1,3 +1,2 @@
-# Java-Programming-Netbeans-Metro-UI-Design-Material-UI-Design-Jtable-JFreeCharts-Moder-UI
+# Projeto de Automação de uma residência utilizando Arduino sendo controlado por uma interface em Java
 
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EJEUD5VJUJ3RQ)
