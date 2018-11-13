@@ -11,20 +11,22 @@ public class ControlePorta {
   private OutputStream serialOut;
   private int taxa;
   private String portaCOM;
-  input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
-  private InputStream;
   
-  public synchronized void serialEvent(SerialPortEvent oEvent) {
-		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-			try {
-				String inputLine = input.readLine();
-				System.out.println(inputLine);
-			} catch (Exception e) {
-				System.err.println(e.toString());
-			}
-		}
-		// Ignore all the other eventTypes, but you should consider the other ones.
-	}
+  
+//  input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
+//  private InputStream;
+//  
+//  public synchronized void serialEvent(SerialPortEvent oEvent) {
+//		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+//			try {
+//				String inputLine = input.readLine();
+//				System.out.println(inputLine);
+//			} catch (Exception e) {
+//				System.err.println(e.toString());
+//			}
+//		}
+//		// Ignore all the other eventTypes, but you should consider the other ones.
+//	}
   /**
    * Construtor da classe ControlePorta
    * @param portaCOM - Porta COM que será utilizada para enviar os dados para o arduino
