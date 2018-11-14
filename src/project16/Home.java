@@ -22,9 +22,7 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author proxc
  */
 public class Home extends javax.swing.JFrame {
-    
-    //cria uma conexao com o arduino
-    Arduino conn = new Arduino();
+ 
         
     /**
      * Creates new form Home16
@@ -33,7 +31,11 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         RenderChart();
     }
-
+  
+    //cria uma conexao com o arduino
+    Arduino conn = new Arduino();
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -59,7 +61,7 @@ public class Home extends javax.swing.JFrame {
         pnl_chart = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         StatusConexao = new javax.swing.JLabel();
-        panel_notificacao = new javax.swing.JPanel();
+        panel_relatorio = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -291,9 +293,9 @@ public class Home extends javax.swing.JFrame {
         StatusConexao.setText("  Não Conectado");
         pnl_chart.add(StatusConexao, java.awt.BorderLayout.PAGE_END);
 
-        panel_notificacao.setBackground(new java.awt.Color(255, 255, 255));
-        panel_notificacao.setEnabled(false);
-        panel_notificacao.setLayout(new javax.swing.BoxLayout(panel_notificacao, javax.swing.BoxLayout.LINE_AXIS));
+        panel_relatorio.setBackground(new java.awt.Color(255, 255, 255));
+        panel_relatorio.setEnabled(false);
+        panel_relatorio.setLayout(new javax.swing.BoxLayout(panel_relatorio, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.black, new java.awt.Color(204, 204, 204)));
         jPanel5.setEnabled(false);
@@ -330,7 +332,7 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap(423, Short.MAX_VALUE))
         );
 
-        panel_notificacao.add(jPanel5);
+        panel_relatorio.add(jPanel5);
 
         pnl_conexao.setBackground(new java.awt.Color(255, 255, 255));
         pnl_conexao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -448,7 +450,7 @@ public class Home extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(0, 232, Short.MAX_VALUE)
-                    .addComponent(panel_notificacao, javax.swing.GroupLayout.PREFERRED_SIZE, 814, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(panel_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 814, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,7 +467,7 @@ public class Home extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(0, 64, Short.MAX_VALUE)
-                    .addComponent(panel_notificacao, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(panel_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -484,7 +486,8 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_pnl_chartMouseDragged
 
     private void btn_homeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_homeMousePressed
-        // TODO add your handling code here:
+     
+             
         setLblColor(btn_home);
         resetLblColor(btn_monitorar_consumo);
         resetLblColor(btn_resto);
@@ -544,8 +547,9 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MousePressed
 
     private void btn_monitorar_consumoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_monitorar_consumoMouseClicked
-     
         pnl_chart.setVisible(true);
+        pnl_conexao.setVisible(false);
+        home.setVisible(false);
     
     }//GEN-LAST:event_btn_monitorar_consumoMouseClicked
 
@@ -575,8 +579,8 @@ public class Home extends javax.swing.JFrame {
     private void btn_homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_homeMouseClicked
         home.setVisible(true);
         pnl_sidebar.setVisible(true);
-        
-        
+        pnl_chart.setVisible(false);
+        panel_relatorio.setVisible(false);
         
     }//GEN-LAST:event_btn_homeMouseClicked
 
@@ -642,7 +646,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     void RenderChart() {
-      /*  CategoryDataset ds = createDataset();
+        CategoryDataset ds = createDataset();
 
         JFreeChart chart = ChartFactory.createStackedAreaChart("", "", "",ds,PlotOrientation.HORIZONTAL,true,true,true);
         chart.setBackgroundPaint(new Color(54, 63, 73));
@@ -656,9 +660,9 @@ public class Home extends javax.swing.JFrame {
         ChartPanel cp = new ChartPanel(chart);
         cp.setBackground(new Color(54, 63, 73));
 
-        pnl_chart.add(cp, BorderLayout.CENTER);
-        pnl_chart.validate();
-        */
+        panel_relatorio.add(cp, BorderLayout.CENTER);
+        panel_relatorio.validate();
+      
     }
 
     /**
@@ -725,7 +729,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JPanel panel_notificacao;
+    private javax.swing.JPanel panel_relatorio;
     private javax.swing.JPanel pnl_chart;
     private javax.swing.JPanel pnl_conexao;
     private javax.swing.JPanel pnl_home;

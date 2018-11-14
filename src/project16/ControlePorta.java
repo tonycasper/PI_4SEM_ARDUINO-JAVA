@@ -62,6 +62,7 @@ public class ControlePorta {
                                SerialPort.PARITY_NONE); //receber e enviar dados
     }catch (Exception e) {
       e.printStackTrace();
+//      jlbNotificacao.setText("");
     }
 }
 
