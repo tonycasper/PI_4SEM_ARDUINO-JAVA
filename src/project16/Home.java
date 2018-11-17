@@ -555,7 +555,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_conectarMouseClicked
 
     private void jBLedOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLedOnActionPerformed
-        conn.comunicacaoArduino(jBLedOn);
+       // conn.comunicacaoArduino(jBLedOn);
         jLabel7.setBackground(Color.green);
         jLabel7.setText("Ligado caraai");
     }//GEN-LAST:event_jBLedOnActionPerformed
@@ -577,7 +577,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_homeMouseClicked
 
     private void JBLedOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBLedOffActionPerformed
-        conn.comunicacaoArduino(JBLedOff);
+       // conn.comunicacaoArduino(JBLedOff);
         jLabel7.setText("Desconected");
     }//GEN-LAST:event_JBLedOffActionPerformed
 
@@ -660,7 +660,7 @@ public class Home extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws Exception {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -684,7 +684,7 @@ public class Home extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -693,6 +693,21 @@ public class Home extends javax.swing.JFrame {
             }
             
         });
+        //arduino
+        
+        Arduino main = new Arduino();
+		main.initialize();
+		Thread t = new Thread() {
+			public void run() {
+				//the following line will keep this app alive for 1000 seconds,
+				//waiting for events to occur and responding to them (printing incoming messages to console).
+				try {
+					Thread.sleep(1000000);
+				} catch (InterruptedException ie) {}
+			}
+		};
+		t.start();
+		System.out.println("Started");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
