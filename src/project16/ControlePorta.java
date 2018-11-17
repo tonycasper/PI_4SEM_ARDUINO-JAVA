@@ -27,6 +27,8 @@ public class ControlePorta {
 //		}
 //		// Ignore all the other eventTypes, but you should consider the other ones.
 //	}
+  
+  
   /**
    * Construtor da classe ControlePorta
    * @param portaCOM - Porta COM que será utilizada para enviar os dados para o arduino

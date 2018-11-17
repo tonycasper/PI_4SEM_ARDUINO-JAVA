@@ -25,11 +25,15 @@ public class Home extends javax.swing.JFrame {
  
         
     /**
-     * Creates new form Home16
+     * Creates new form Home
      */
     public Home() {
         initComponents();
         RenderChart();
+        home.setVisible(true);
+        panel_relatorio.setVisible(false);
+        pnl_conexao.setVisible(false);
+        pnl_chart.setVisible(true);
     }
   
     //cria uma conexao com o arduino
@@ -65,7 +69,6 @@ public class Home extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        jLabel10 = new javax.swing.JLabel();
         pnl_conexao = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -259,7 +262,7 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(btn_conectar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_resto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -303,8 +306,6 @@ public class Home extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel15.setText("Relatório de Consumo ");
 
-        jLabel10.setText("jLabel10");
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -314,9 +315,7 @@ public class Home extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator2)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel15))
+                        .addComponent(jLabel15)
                         .addGap(0, 635, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -327,9 +326,7 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
-                .addComponent(jLabel10)
-                .addContainerGap(423, Short.MAX_VALUE))
+                .addContainerGap(489, Short.MAX_VALUE))
         );
 
         panel_relatorio.add(jPanel5);
@@ -461,12 +458,12 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(pnl_conexao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(182, Short.MAX_VALUE)
+                    .addContainerGap(174, Short.MAX_VALUE)
                     .addComponent(home, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(21, 21, 21)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 64, Short.MAX_VALUE)
+                    .addGap(0, 56, Short.MAX_VALUE)
                     .addComponent(panel_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -476,6 +473,7 @@ public class Home extends javax.swing.JFrame {
     int xy;
     private void pnl_chartMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_chartMousePressed
         // TODO add your handling code here:
+        System.out.print("clicaram no grafico");
 
     }//GEN-LAST:event_pnl_chartMousePressed
 
@@ -486,20 +484,13 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_pnl_chartMouseDragged
 
     private void btn_homeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_homeMousePressed
-     
-             
         setLblColor(btn_home);
         resetLblColor(btn_monitorar_consumo);
         resetLblColor(btn_resto);
         resetLblColor(btn_conectar);
-        
         //mostra os paineis de novo
-        
         pnl_chart.setVisible(true);
-        
         pnl_conexao.setVisible(false);
-        
-
     }//GEN-LAST:event_btn_homeMousePressed
 
     private void btn_monitorar_consumoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_monitorar_consumoMousePressed
@@ -550,6 +541,7 @@ public class Home extends javax.swing.JFrame {
         pnl_chart.setVisible(true);
         pnl_conexao.setVisible(false);
         home.setVisible(false);
+        panel_relatorio.setVisible(true);
     
     }//GEN-LAST:event_btn_monitorar_consumoMouseClicked
 
@@ -660,7 +652,7 @@ public class Home extends javax.swing.JFrame {
         ChartPanel cp = new ChartPanel(chart);
         cp.setBackground(new Color(54, 63, 73));
 
-        panel_relatorio.add(cp, BorderLayout.CENTER);
+        panel_relatorio.add(cp, BorderLayout.AFTER_LAST_LINE);
         panel_relatorio.validate();
       
     }
@@ -697,8 +689,9 @@ public class Home extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Home().setVisible(true);
-
+                
             }
+            
         });
     }
 
@@ -713,7 +706,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton jBLedOn;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
