@@ -607,6 +607,14 @@ public class Home extends javax.swing.JFrame {
         
         //Aqui é onde vai os resultados que tem que trazer do banco de dados para alimentar o grafico
         
+        GraficoDAO dadosGrafico = new GraficoDAO();
+        
+        double secLedG = dadosGrafico.carregar("ledG");
+        double secLedR = dadosGrafico.carregar("ledG");
+        double secLedY = dadosGrafico.carregar("ledG");
+        
+        double totalSec = secLedR + secLedG + secLedY;
+        
         series1.add(1.0, 2.0);
         series1.add(2.0, 3.0);
         series1.add(3.0, 2.5);
