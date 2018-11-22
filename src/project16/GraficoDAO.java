@@ -15,8 +15,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 
@@ -76,9 +74,8 @@ public class GraficoDAO {
 //		}
 //	}
 
-	public List<ModelArduino> carregar(String nomeLed) {
-		
-                ArrayList<ModelArduino> listaArduino = new ArrayList();
+	public ModelArduino carregar(String nomeLed) {
+		ModelArduino arduino = new ModelArduino();
                  int tempo = 0;
 		arduino.setNomeLed(nomeLed);
 		String sqlSelect = "SELECT tempo_consumo FROM tbl_monitoracao WHERE tbl_monitoracao.nome_led = ?";
@@ -88,9 +85,7 @@ public class GraficoDAO {
 			stm.setString(1, arduino.getNomeLed());
 			try (ResultSet rs = stm.executeQuery();) {
 				if (rs.next()) {
-                                        ModelArduino arduino = new ModelArduino();
 					arduino.setLedTempo(rs.getInt("tempo_consumo"));
-                                        arduino.setNomeLed("nome_led");
                                         tempo += arduino.getLedTempo();
                                         arduino.setLedTempo(tempo);
 				} else {
@@ -102,6 +97,6 @@ public class GraficoDAO {
 		} catch (SQLException e1) {
 			System.out.print(e1.getStackTrace());
 		}
-		return listaArduino;
+		return arduino;
 	}
 }
