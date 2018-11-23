@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 
 
@@ -18,8 +19,7 @@ import java.sql.SQLException;
  * @author andre
  */
 public class ArduinoDAO {
-    public void inserirTempo(float tempo) {
-                ModelArduino arduino = new ModelArduino();
+    public void inserirTempo(ModelArduino arduino) {
 		String sqlInsert = "INSERT INTO arduino(nome_led, tempo_consumo) VALUES (?, ?, ?)";
 		// usando o try with resources do Java 7, que fecha o que abriu
 		try (Connection conn = ConnectionFactory.obtemConexao();
@@ -28,14 +28,14 @@ public class ArduinoDAO {
 			stm.setFloat(2, arduino.getLedTempo());
 			stm.execute();
 			String sqlQuery = "SELECT LAST_INSERT_ID()";
-//			try (PreparedStatement stm2 = conn.prepareStatement(sqlQuery);
-//					ResultSet rs = stm2.executeQuery();) {
-//				if (rs.next()) {
-//					arduino.setId(rs.getInt(1));
-//				}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
+			try (PreparedStatement stm2 = conn.prepareStatement(sqlQuery);
+					ResultSet rs = stm2.executeQuery();) {
+				if (rs.next()) {
+					//arduino.setId(rs.getInt(1));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

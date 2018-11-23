@@ -17,10 +17,16 @@ public class ModelArduino {
 
     private Date data;
     private String nomeLed;
-    private float ledTempo;
+    private long ledTempo;
    
-   
+    public ModelArduino(String nome, long tempo){
+        this.nomeLed = nome;
+        this.ledTempo = tempo;
+    }
     
+    public ModelArduino(){
+        
+    }
     public Date getData() {
         return data;
     }
@@ -41,7 +47,7 @@ public class ModelArduino {
         return ledTempo;
     }
 
-    public void setLedTempo(int ledTempo) {
+    public void setLedTempo(long ledTempo) {
         this.ledTempo = ledTempo;
     }
     

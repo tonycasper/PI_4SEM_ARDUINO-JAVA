@@ -16,7 +16,7 @@ public class ConnectionFactory {
 	// ObtÃ©m conexÃ£o com o banco de dados
 	public static Connection obtemConexao() throws SQLException {
 		return DriverManager
-				.getConnection("jdbc:mysql://localhost/vendas?user=alunos&password=alunos");
+				.getConnection("jdbc:mysql://localhost/db_pi4sem?user=root&password=root");
 	}
 
 }
