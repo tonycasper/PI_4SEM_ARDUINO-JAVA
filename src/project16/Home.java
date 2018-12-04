@@ -703,9 +703,10 @@ public class Home extends javax.swing.JFrame {
         home.setVisible(false);
         panel_relatorio.setVisible(true);
         pnl_detalhes.setVisible(false);
-
-        PieDataset pizzaDataSet = criarDadosFake();
-        //grafico pizza             
+        
+        PieDataset pizzaDataSet = null;
+        pizzaDataSet = criarDados();
+        //grafico pizza                     
         panel_relatorio.removeAll();
         GraficoPizza3D grafico = new GraficoPizza3D(
                 "Pessoas por países",
@@ -807,6 +808,9 @@ public class Home extends javax.swing.JFrame {
         double tempoLedVermelho = 0;
         double tempoLedAmarelo = 0;
         double tempoLedVerde = 0;
+        totalTempoLedVermelho = 0;
+        totalTempoLedVerde = 0;
+        totalTempoLedAmarelo = 0;
 
         listaDataLedVermelho = dao.readLedData("LED VERMELHO");
         listaDataLedAmarelo = dao.readLedData("LED AMARELO");
@@ -927,8 +931,9 @@ public class Home extends javax.swing.JFrame {
 
     }
 
-    private static PieDataset criarDadosFake() {
-
+    private static PieDataset criarDados() {
+        
+        
         DefaultPieDataset dataSet = new DefaultPieDataset();
 
         dataSet.setValue(
