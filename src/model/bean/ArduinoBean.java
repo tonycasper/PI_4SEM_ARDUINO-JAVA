@@ -3,38 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package project16;
+package model.bean;
 
-import model.bean.*;
 import java.io.BufferedReader;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
  * @author andre
  */
-public class ModelArduino {
+public class ArduinoBean {
 
 
     private Date data;
     private String nomeLed;
     private long ledTempo;
-    private String DataMarcada;
-
-    public String getDataMarcada() {
-        return DataMarcada;
-    }
-
-    public void setDataMarcada(String DataMarcada) {
-        this.DataMarcada = DataMarcada;
-    }
    
-    public ModelArduino(String nome, long tempo){
+    public ArduinoBean(String nome, long tempo){
         this.nomeLed = nome;
         this.ledTempo = tempo;
     }
     
-    public ModelArduino(){
+    public ArduinoBean(){
         
     }
     public Date getData() {

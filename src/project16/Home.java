@@ -7,17 +7,36 @@ package project16;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.text.MaskFormatter;
+import model.bean.ArduinoBean;
+import model.dao.ArduinoDAO;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.util.Rotation;
+import static sun.misc.MessageUtils.where;
 
 /**
  *
@@ -29,22 +48,28 @@ public class Home extends javax.swing.JFrame {
      * Creates new form Home
      */
     ControlePorta arduino;
+    ArduinoDAO dao = new ArduinoDAO();
+    ControlePorta arduino1;
+    ArduinoTableModel tableModel = new ArduinoTableModel(dao.read());
+    List<ModelArduino> listaDataLedVermelho;
+    List<ModelArduino> listaDataLedAmarelo;
+    List<ModelArduino> listaDataLedVerde;
+    static double totalTempoLedVermelho = 0;
+    static double totalTempoLedVerde = 0;
+    static double totalTempoLedAmarelo = 0;
+    
 
     public Home() {
         initComponents();
-    
+        pnl_detalhes.setVisible(false);
         home.setVisible(true);
         panel_relatorio.setVisible(false);
         pnl_conexao.setVisible(false);
-        pnl_chart.setVisible(true);
-        try {
-            ControlePorta arduino = new ControlePorta("COM3", 9600);
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-        }
+        pnl_chart.setVisible(true);        
+        jTable1.setModel(tableModel);
+
     }
 
-  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,16 +110,20 @@ public class Home extends javax.swing.JFrame {
         pnl_detalhes = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        Jbl_FeebackCon2 = new javax.swing.JLabel();
+        jbl_LedVermelho = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        Jbl_FeebackCon3 = new javax.swing.JLabel();
-        Jbl_FeebackCon4 = new javax.swing.JLabel();
-        Jbl_FeebackCon5 = new javax.swing.JLabel();
-        Jbl_FeebackCon6 = new javax.swing.JLabel();
-        Jbl_FeebackCon7 = new javax.swing.JLabel();
+        jbl_LedVerde = new javax.swing.JLabel();
+        jbl_LedAmarelo = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jButton3 = new javax.swing.JButton();
+        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        jLabel10 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -133,12 +162,12 @@ public class Home extends javax.swing.JFrame {
             .addGroup(pnl_homeLayout.createSequentialGroup()
                 .addGap(244, 244, 244)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(276, Short.MAX_VALUE))
+                .addContainerGap(215, Short.MAX_VALUE))
             .addGroup(pnl_homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnl_homeLayout.createSequentialGroup()
                     .addGap(222, 222, 222)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(227, Short.MAX_VALUE)))
+                    .addContainerGap(166, Short.MAX_VALUE)))
         );
         pnl_homeLayout.setVerticalGroup(
             pnl_homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,7 +307,7 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(btn_conectar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_resto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -312,7 +341,7 @@ public class Home extends javax.swing.JFrame {
         StatusConexao.setText("Desconectado");
         pnl_chart.add(StatusConexao, java.awt.BorderLayout.CENTER);
 
-        jButton1.setText("Recarregar");
+        jButton1.setText("Atualizar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -374,7 +403,7 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(pnl_conexaoLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel9)
-                        .addGap(0, 653, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
             .addGroup(pnl_conexaoLayout.createSequentialGroup()
@@ -392,7 +421,7 @@ public class Home extends javax.swing.JFrame {
                                 .addComponent(jLabel6)
                                 .addGap(27, 27, 27)
                                 .addComponent(Jbl_FeebackCon)))
-                        .addGap(0, 525, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(pnl_conexaoLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jBLedOn)
@@ -432,26 +461,56 @@ public class Home extends javax.swing.JFrame {
         jLabel14.setText("Total consumido Arduino:");
         jLabel14.setPreferredSize(new java.awt.Dimension(180, 40));
 
-        jLabel16.setText("Led Vermelho Tempo Total Consumido:");
+        jLabel16.setText("Led Vermelho Tempo Total Consumido(seg):");
 
-        Jbl_FeebackCon2.setText("0");
+        jbl_LedVermelho.setText("0");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel17.setText("Mais Detalhes Aplicação");
 
-        jLabel18.setText("Led Verde Tempo Total Consumido:");
+        jLabel18.setText("Led Verde Tempo Total Consumido (seg):");
 
-        jLabel19.setText("Led Amarelo Tempo Total Consumido:");
+        jLabel19.setText("Led Amarelo Tempo Total Consumido (seg):");
 
-        Jbl_FeebackCon3.setText("0");
+        jbl_LedVerde.setText("0");
 
-        Jbl_FeebackCon4.setText("0");
+        jbl_LedAmarelo.setText("0");
 
-        Jbl_FeebackCon5.setText("s");
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        jScrollPane1.setOpaque(false);
 
-        Jbl_FeebackCon6.setText("s");
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jTable1.setForeground(new java.awt.Color(51, 51, 51));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null}
+            },
+            new String [] {
+                "LED", "TEMPO (ms)", "DATA"
+            }
+        ));
+        jTable1.setGridColor(new java.awt.Color(255, 255, 255));
+        jTable1.setRowHeight(20);
+        jTable1.setSelectionBackground(new java.awt.Color(62, 226, 141));
+        jTable1.setShowHorizontalLines(false);
+        jTable1.setShowVerticalLines(false);
+        jScrollPane1.setViewportView(jTable1);
 
-        Jbl_FeebackCon7.setText("s");
+        jLabel7.setText("Coloque a data em que deseja verficar o tempo:");
+
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+
+        jButton3.setText("Carregar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+
+        jLabel10.setText("Até");
 
         javax.swing.GroupLayout pnl_detalhesLayout = new javax.swing.GroupLayout(pnl_detalhes);
         pnl_detalhes.setLayout(pnl_detalhesLayout);
@@ -459,35 +518,38 @@ public class Home extends javax.swing.JFrame {
             pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_detalhesLayout.createSequentialGroup()
                 .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnl_detalhesLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel17)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnl_detalhesLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel17)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel19)
+                                    .addGroup(pnl_detalhesLayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jLabel18))
+                                    .addComponent(jbl_LedAmarelo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbl_LedVermelho, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbl_LedVerde, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addGap(0, 462, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(pnl_detalhesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnl_detalhesLayout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addGap(18, 18, 18)
-                        .addComponent(Jbl_FeebackCon2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Jbl_FeebackCon7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnl_detalhesLayout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addGap(18, 18, 18)
-                        .addComponent(Jbl_FeebackCon3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Jbl_FeebackCon6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnl_detalhesLayout.createSequentialGroup()
-                        .addComponent(jLabel19)
-                        .addGap(18, 18, 18)
-                        .addComponent(Jbl_FeebackCon4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Jbl_FeebackCon5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 525, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(jLabel10)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_detalhesLayout.createSequentialGroup()
+                    .addContainerGap(271, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
         pnl_detalhesLayout.setVerticalGroup(
             pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,24 +558,36 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(jLabel17)
                 .addGap(16, 16, 16)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(jLabel7)
+                .addGap(10, 10, 10)
+                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10)
+                .addGap(3, 3, 3)
+                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton3)
                 .addGap(18, 18, 18)
-                .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(Jbl_FeebackCon2)
-                    .addComponent(Jbl_FeebackCon7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(Jbl_FeebackCon3)
-                    .addComponent(Jbl_FeebackCon6))
-                .addGap(27, 27, 27)
-                .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(Jbl_FeebackCon4)
-                    .addComponent(Jbl_FeebackCon5))
-                .addGap(232, 232, 232))
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbl_LedVermelho)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbl_LedVerde)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbl_LedAmarelo)
+                .addGap(65, 65, 65))
+            .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_detalhesLayout.createSequentialGroup()
+                    .addContainerGap(107, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(68, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -524,20 +598,20 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(pnl_sidebar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnl_conexao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnl_chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(pnl_chart, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+                    .addComponent(pnl_conexao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(241, 241, 241)
-                    .addComponent(home, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(home, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 232, Short.MAX_VALUE)
-                    .addComponent(panel_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 814, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 236, Short.MAX_VALUE)
+                    .addComponent(panel_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 749, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 232, Short.MAX_VALUE)
+                    .addGap(0, 234, Short.MAX_VALUE)
                     .addComponent(pnl_detalhes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
@@ -554,8 +628,8 @@ public class Home extends javax.swing.JFrame {
                     .addGap(21, 21, 21)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 67, Short.MAX_VALUE)
-                    .addComponent(panel_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 62, Short.MAX_VALUE)
+                    .addComponent(panel_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(0, 66, Short.MAX_VALUE)
@@ -596,14 +670,6 @@ public class Home extends javax.swing.JFrame {
         resetLblColor(btn_conectar);
     }//GEN-LAST:event_btn_monitorar_consumoMousePressed
 
-    private void btn_conectarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_conectarMousePressed
-        // TODO add your handling code here:
-        setLblColor(btn_conectar);
-        resetLblColor(btn_monitorar_consumo);
-        resetLblColor(btn_resto);
-        resetLblColor(btn_home);
-    }//GEN-LAST:event_btn_conectarMousePressed
-
     private void btn_restoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_restoMousePressed
         // TODO add your handling code here:
         setLblColor(btn_resto);
@@ -638,21 +704,49 @@ public class Home extends javax.swing.JFrame {
         panel_relatorio.setVisible(true);
         pnl_detalhes.setVisible(false);
 
+        PieDataset pizzaDataSet = criarDadosFake();
+        //grafico pizza             
+        panel_relatorio.removeAll();
+        GraficoPizza3D grafico = new GraficoPizza3D(
+                "Pessoas por países",
+                "Total de Tempo em que cada LED ficou ligado",
+                pizzaDataSet
+        );
+
+    }
+
+    private JFreeChart createChart(PieDataset pPieDataset, String pTituloGrafico) {
+
+        JFreeChart grafico = ChartFactory.createPieChart3D(
+                pTituloGrafico,
+                pPieDataset,
+                true,
+                true,
+                false
+        );
+
+        PiePlot3D plot = (PiePlot3D) grafico.getPlot();
+
+        plot.setForegroundAlpha(0.7f);
+
+        plot.setStartAngle(0);
+
+        plot.setDirection(Rotation.CLOCKWISE);
+
+//        grafico.pack();
+//        grafico.setVisible(true);
+        return grafico;
     }//GEN-LAST:event_btn_monitorar_consumoMouseClicked
-
-    private void btn_conectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_conectarMouseClicked
-        pnl_conexao.setVisible(true);
-        pnl_chart.setVisible(false);
-        pnl_detalhes.setVisible(false);
-        jLabel1.setVisible(true);
-        pnl_chart.setVisible(true);
-
-    }//GEN-LAST:event_btn_conectarMouseClicked
 
     private void jBLedOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLedOnActionPerformed
         // conn.comunicacaoArduino(jBLedOn);
         Jbl_FeebackCon.setForeground(Color.green);
         StatusConexao.setForeground(Color.green);
+        try {
+            arduino1 = new ControlePorta("COM3", 9600);
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
 
         //arduino
         String status = StatusConexao.getText();
@@ -706,13 +800,85 @@ public class Home extends javax.swing.JFrame {
         Jbl_FeebackCon.setText("Desconected");
         StatusConexao.setText("Desconected");
         StatusConexao.setForeground(Color.red);
+        arduino1.close();
     }//GEN-LAST:event_JBLedOffActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            RenderChart();
-        
-        
+        double tempoLedVermelho = 0;
+        double tempoLedAmarelo = 0;
+        double tempoLedVerde = 0;
+
+        listaDataLedVermelho = dao.readLedData("LED VERMELHO");
+        listaDataLedAmarelo = dao.readLedData("LED AMARELO");
+        listaDataLedVerde = dao.readLedData("LED VERDE");
+
+        for (ModelArduino ma : listaDataLedVermelho) {
+            tempoLedVermelho += ma.getLedTempo();
+        }
+        for (ModelArduino ma : listaDataLedAmarelo) {
+            tempoLedAmarelo += ma.getLedTempo();
+        }
+        for (ModelArduino ma : listaDataLedVerde) {
+            tempoLedVerde += ma.getLedTempo();
+
+        }
+
+        for (int i = 0; i < listaDataLedAmarelo.size(); i++) {
+            if (listaDataLedAmarelo.get(i) != null) {
+                totalTempoLedAmarelo += listaDataLedAmarelo.get(i).getLedTempo();
+            }
+        }
+
+        for (int i = 0; i < listaDataLedVerde.size(); i++) {
+            if (listaDataLedVerde.get(i) != null) {
+                totalTempoLedVerde += listaDataLedVerde.get(i).getLedTempo();
+            }
+
+        }
+        for (int i = 0; i < listaDataLedVermelho.size(); i++) {
+            if (listaDataLedVermelho.get(i) != null) {
+                totalTempoLedVermelho += listaDataLedVermelho.get(i).getLedTempo();
+            }
+        }
+
+        jbl_LedVermelho.setText("" + tempoLedVermelho);
+        jbl_LedVerde.setText("" + tempoLedVerde);
+        jbl_LedAmarelo.setText("" + tempoLedAmarelo);
+       
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btn_conectarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_conectarMousePressed
+        // TODO add your handling code here:
+        setLblColor(btn_conectar);
+        resetLblColor(btn_monitorar_consumo);
+        resetLblColor(btn_resto);
+        resetLblColor(btn_home);
+    }//GEN-LAST:event_btn_conectarMousePressed
+
+    private void btn_conectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_conectarMouseClicked
+        pnl_conexao.setVisible(true);
+        pnl_chart.setVisible(false);
+        pnl_detalhes.setVisible(false);
+        jLabel1.setVisible(true);
+        pnl_chart.setVisible(true);
+    }//GEN-LAST:event_btn_conectarMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String pSql01 = jFormattedTextField1.getText();
+        tableModel.clear();
+        String pSql02 = jFormattedTextField2.getText();
+        List<ModelArduino> listAr = dao.loadFromData(pSql01,pSql02);
+        
+        for (ModelArduino modelArduino : listAr) {
+            tableModel.addRow(modelArduino);
+        }
+       
+        jTable1.repaint();
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     public void setLblColor(JLabel lbl) {
         lbl.setForeground(new Color(48, 201, 235));
@@ -720,83 +886,6 @@ public class Home extends javax.swing.JFrame {
 
     public void resetLblColor(JLabel lbl) {
         lbl.setForeground(new Color(166, 166, 166));
-    }
-
-    //Let's add a chart to top Jpanel
-    //We are going to use JfreeCharts
-    //Source will be 
-    //Ofcourse before doing anything else you need to download JfreeCharts Lib and import into your project
-    public CategoryDataset createDataset() {
-        
-         // TODO add your handling code here:
-        double[] dataLedR = null;
-        double[] dataLedY = null;
-        double[] dataLedG = null;
-        
-        dataLedR = MonitoraArduino.getInstance().getDataLedR();
-        dataLedG = MonitoraArduino.getInstance().getDataLedG();
-        dataLedY = MonitoraArduino.getInstance().getDataLedY();
-        
-        final double[][] data = new double[][]{
-            dataLedR,
-            dataLedG,
-            dataLedY
-        };
-        final CategoryDataset dataset = DatasetUtilities.createCategoryDataset(
-                "LED", "HORA", data
-        );
-        return dataset;
-    }
-
-    private XYDataset createDataset2() {
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        XYSeries series1 = new XYSeries("Object 1");
-        XYSeries series2 = new XYSeries("Object 2");
-        XYSeries series3 = new XYSeries("Object 3");
-
-        //Aqui é onde vai os resultados que tem que trazer do banco de dados para alimentar o grafico
-//        series1.add(1.0, 2.0);
-//        series1.add(2.0, 3.0);
-//        series1.add(3.0, 2.5);
-//        series1.add(3.5, 2.8);
-//        series1.add(4.2, 6.0);
-//
-//        series2.add(2.0, 12.0);
-//        series2.add(2.5, 2.4);
-//        series2.add(3.2, 1.2);
-//        series2.add(3.9, 2.8);
-//        series2.add(4.6, 3.0);
-//
-//        series3.add(1.2, 4.0);
-//        series3.add(2.5, 4.4);
-//        series3.add(3.8, 4.2);
-//        series3.add(4.3, 3.8);
-//        series3.add(4.5, 4.0);
-        dataset.addSeries(series1);
-        dataset.addSeries(series2);
-        dataset.addSeries(series3);
-
-        return dataset;
-    }
-
-    void RenderChart() {
-        CategoryDataset ds = createDataset();
-
-        JFreeChart chart = ChartFactory.createStackedAreaChart("Total de Consumo de Energia", "TEMPO", "QNTIDADE DE ENERGIA GASTA", ds, PlotOrientation.VERTICAL, true, true, true);
-        chart.setBackgroundPaint(new Color(54, 63, 73));
-        chart.setBorderVisible(false);
-        chart.setBorderPaint(new Color(54, 63, 73));
-        chart.getCategoryPlot().setBackgroundPaint(new Color(54, 63, 73));
-        chart.getCategoryPlot().setDomainGridlinePaint(new Color(54, 63, 73));
-        chart.getCategoryPlot().setDomainGridlinesVisible(false);
-        chart.getCategoryPlot().setOutlinePaint(new Color(54, 63, 73));
-
-        ChartPanel cp = new ChartPanel(chart);
-        cp.setBackground(new Color(54, 63, 73));
-
-        panel_relatorio.add(cp, BorderLayout.AFTER_LAST_LINE);
-        panel_relatorio.validate();
-
     }
 
     /**
@@ -838,17 +927,64 @@ public class Home extends javax.swing.JFrame {
 
     }
 
+    private static PieDataset criarDadosFake() {
+
+        DefaultPieDataset dataSet = new DefaultPieDataset();
+
+        dataSet.setValue(
+                "Vermelho", totalTempoLedVermelho);
+        dataSet.setValue(
+                "Amarelo", totalTempoLedAmarelo);
+        dataSet.setValue(
+                "Verde", totalTempoLedVerde);
+        // dataSet.setValue("Srilanca", 3);
+
+        return dataSet;
+
+    }
+
+    public class GraficoPizza3D {
+
+        public GraficoPizza3D(String applicationTitle, String chartTitle, PieDataset pDataSet) {
+
+            JFreeChart graficoPizza3D = createChart(pDataSet, chartTitle);
+
+            ChartPanel painelParaOGrafico = new ChartPanel(graficoPizza3D);
+
+            panel_relatorio.add(painelParaOGrafico, BorderLayout.AFTER_LAST_LINE);
+
+            panel_relatorio.validate();
+        }
+    }
+
+    public void readJTable(String data) {
+
+        ArduinoDAO dao = new ArduinoDAO();
+        
+//        if(data.equals("")){
+//         ArduinoTableModel tableModel = new ArduinoTableModel(dao.read());    
+//        }else{
+//         ArduinoTableModel tableModel = new ArduinoTableModel(dao.load(data));   
+//        }
+//                
+//        jTable1.setModel(tableModel);
+//        
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        dao.read().forEach((a) -> {
+            modelo.addRow(new Object[]{
+                a.getNomeLed(),
+                a.getLedTempo(),
+                a.getDataMarcada()
+            });
+        });
+        tableModel.fireTableDataChanged();
+        jTable1.setModel(tableModel);
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JBLedOff;
-    private javax.swing.JButton JBLedOff1;
     private javax.swing.JLabel Jbl_FeebackCon;
-    private javax.swing.JLabel Jbl_FeebackCon1;
-    private javax.swing.JLabel Jbl_FeebackCon2;
-    private javax.swing.JLabel Jbl_FeebackCon3;
-    private javax.swing.JLabel Jbl_FeebackCon4;
-    private javax.swing.JLabel Jbl_FeebackCon5;
-    private javax.swing.JLabel Jbl_FeebackCon6;
-    private javax.swing.JLabel Jbl_FeebackCon7;
     private javax.swing.JLabel StatusConexao;
     private javax.swing.JLabel btn_conectar;
     private javax.swing.JLabel btn_home;
@@ -856,15 +992,14 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel btn_resto;
     private javax.swing.JPanel home;
     private javax.swing.JButton jBLedOn;
-    private javax.swing.JButton jBLedOn1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -880,13 +1015,16 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel jbl_LedAmarelo;
+    private javax.swing.JLabel jbl_LedVerde;
+    private javax.swing.JLabel jbl_LedVermelho;
     private javax.swing.JPanel panel_relatorio;
     private javax.swing.JPanel pnl_chart;
     private javax.swing.JPanel pnl_conexao;
-    private javax.swing.JPanel pnl_conexao1;
     private javax.swing.JPanel pnl_detalhes;
     private javax.swing.JPanel pnl_home;
     private javax.swing.JPanel pnl_sidebar;

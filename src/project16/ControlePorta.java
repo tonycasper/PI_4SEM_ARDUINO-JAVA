@@ -13,22 +13,14 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import model.dao.ArduinoDAO;
 
 public class ControlePorta implements SerialPortEventListener {
-    
-    private static ControlePorta INSTANCE;
+
     private double[] dataLedR = null;
     private double[] dataLedY = null;
     private double[] dataLedG = null;
-
-    private boolean contantoTempoG = false;
-    private boolean contandoTempoY = false;
-    private boolean contantoTempoR = false;
-
-    static ArrayList<ModelArduino> listaLedR = new ArrayList();
-    static ArrayList<ModelArduino> listaLedY = new ArrayList();
-    static ArrayList<ModelArduino> listaLedG = new ArrayList();
-
+    
     ArrayList<ModelArduino> tempoLedR = new ArrayList();
     ArrayList<ModelArduino> tempoLedY = new ArrayList();
     ArrayList<ModelArduino> tempoLedG = new ArrayList();
@@ -42,14 +34,7 @@ public class ControlePorta implements SerialPortEventListener {
     private OutputStream output;
 
     public ModelArduino ard = new ModelArduino();
-    
-    public static synchronized ControlePorta getInstance(){
-        if(INSTANCE == null){
-            INSTANCE = new ControlePorta(String portaCOM, int taxa)
-        }
-        return INSTANCE;
-    }
-    
+        
     //input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
     private BufferedReader input;
 
@@ -58,7 +43,7 @@ public class ControlePorta implements SerialPortEventListener {
             try {
                 String inputLine = input.readLine();
                 System.out.println(inputLine);
-                verificaSeContaTempo(inputLine);
+                MonitoraArduino.getInstance().verificaSeContaTempo(inputLine);
             } catch (Exception e) {
                 System.err.println(e.toString());
             }
@@ -140,105 +125,14 @@ public class ControlePorta implements SerialPortEventListener {
         }
     }
 
-    void verificaSeContaTempo(String in) {
-        //arduino que vai receber os parametros
-        ModelArduino arduino = new ModelArduino();
-        //verifica se esta vindo sinal de ligado e se esta contanto o tempo do led
-        if (in.equals("ledGStart") && !contantoTempoG) {
-            Date data = new Date();
-            arduino.setData(data);
-            arduino.setNomeLed("ledG");
-            listaLedG.add(arduino);
-            contantoTempoG = true;
-        } else if (in.equals("ledRStart") && !contantoTempoR) {
-            Date data = new Date();
-            arduino.setData(data);
-            listaLedR.add(arduino);
-            arduino.setNomeLed("ledR");
-            contantoTempoR = true;
-        } else if (in.equals("ledYStart") && !contandoTempoY) {
-            Date data = new Date();
-            arduino.setData(data);
-            arduino.setNomeLed("ledY");
-            listaLedY.add(arduino);
-            contandoTempoY = true;
-        } else //verifica se esta vindo sinal de desligar do led e se esta contando tempo
-        if (in.equals("ledGStop") && contantoTempoG) {
-            Date data = new Date();
-            arduino.setData(data);
-            contantoTempoG = false;
-            arduino.setNomeLed("ledG");
-            verificaTempo(arduino);
-        } else if (in.equals("ledYStop") && contandoTempoY) {
-            Date data = new Date();
-            arduino.setData(data);
-            listaLedY.add(arduino);
-            arduino.setNomeLed("ledY");
-            contandoTempoY = false;
-            verificaTempo(arduino);
-        } else if (in.equals("ledRStop") && contantoTempoR) {
-            Date data = new Date();
-            arduino.setData(data);
-            contantoTempoR = false;
-            arduino.setNomeLed("ledR");
-            verificaTempo(arduino);
-
-        }
-    }
-
-    public void verificaTempo(ModelArduino ar) {
-        //modelo do objeto que vai receber o metodo
-        ModelArduino arduino;
-        long tempo = 0;
-        //verifica o nome do led e se a possui um led na lista para nao dar exception
-        if (ar.getNomeLed().equals("ledR") && listaLedR.get(0) != null) {
-            //seta que o arduino é o primeiro da lista 
-            arduino = listaLedR.get(0);
-            //compara o tempo dos dois arduinos
-            tempo = ar.getData().getTime() - arduino.getData().getTime();
-            
-            ar.setLedTempo(tempo);
-            tempoLedR.add(ar);
-            listaLedR.clear();
-            //acrescentaTempoBD(ar);
-            //salvaDadosMemoria();
-            MonitoraArduino.getInstance().setDataLedY(this.getDataLedY());            
-            MonitoraArduino.getInstance().setTempoLedG(tempoLedR);
-            
-        } else if (ar.getNomeLed().equals("ledY") && listaLedY.get(0) != null) {
-            arduino = listaLedY.get(0);
-            tempo = ar.getData().getTime() - arduino.getData().getTime();
-            ar.setLedTempo(tempo);
-            listaLedY.clear();
-            tempoLedY.add(ar);
-            //acrescentaTempoBD(ar);
-            //salvaDadosMemoria();
-            MonitoraArduino.getInstance().setTempoLedG(tempoLedY);
-            MonitoraArduino.getInstance().setDataLedY(this.getDataLedY());
-        }
-        if (ar.getNomeLed().equals("ledG") && listaLedG.get(0) != null) {
-            arduino = listaLedG.get(0);
-            tempo = ar.getData().getTime() - arduino.getData().getTime();
-            ar.setLedTempo(tempo);
-            listaLedG.clear();
-            tempoLedG.add(ar);
-            //acrescentaTempoBD(ar);
-            //salva dados em memoria
-            //salvaDadosMemoria();
-            MonitoraArduino.getInstance().setTempoLedG(tempoLedG);
-            MonitoraArduino.getInstance().setDataLedG(this.getDataLedG());
-        }
-
-    }
-
     public void salvaDadosMemoria() {
 
     }
 
     public void acrescentaTempoBD(ModelArduino arduino) {
-        dao = new ArduinoDAO();
+        //dao = new ArduinoDAO();
         if (arduino.getLedTempo() != 0) {
-            dao.inserirTempo(arduino);
+            //dao.create(arduino);
         } else {
 
         }
@@ -268,38 +162,38 @@ public class ControlePorta implements SerialPortEventListener {
         this.tempoLedG = tempoLedG;
     }
 
-    public double[] getDataLedR() {
-        for (int i = 0; i < listaLedR.size(); i++) {
-            ModelArduino ar = listaLedR.get(i);
-            dataLedR[i] = ar.getLedTempo();
-        }
-
-        return this.dataLedR;
-    }
+//    public double[] getDataLedR() {
+//        for (int i = 0; i < listaLedR.size(); i++) {
+//            ModelArduino ar = listaLedR.get(i);
+//            dataLedR[i] = ar.getLedTempo();
+//        }
+//
+//        return this.dataLedR;
+//    }
 
     public void setDataLedR(double[] dataLedR) {
         this.dataLedR = dataLedR;
     }
 
-    public double[] getDataLedY() {
-        for (int i = 0; i < listaLedY.size(); i++) {
-            ModelArduino ar = listaLedY.get(i);
-            dataLedR[i] = ar.getLedTempo();
-        }
-        return this.dataLedY;
-    }
+//    public double[] getDataLedY() {
+//        for (int i = 0; i < listaLedY.size(); i++) {
+//            ModelArduino ar = listaLedY.get(i);
+//            dataLedR[i] = ar.getLedTempo();
+//        }
+//        return this.dataLedY;
+//    }
 
     public void setDataLedY(double[] dataLedY) {
         this.dataLedY = dataLedY;
     }
 
-    public double[] getDataLedG() {
-        for (int i = 0; i < listaLedG.size(); i++) {
-            ModelArduino ar = listaLedG.get(i);
-            dataLedG[i] = ar.getLedTempo();
-        }
-        return dataLedG;
-    }
+//    public double[] getDataLedG() {
+//        for (int i = 0; i < listaLedG.size(); i++) {
+//            ModelArduino ar = listaLedG.get(i);
+//            dataLedG[i] = ar.getLedTempo();
+//        }
+//        return dataLedG;
+//    }
 
     public void setDataLedG(double[] dataLedG) {
         this.dataLedG = dataLedG;
