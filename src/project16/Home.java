@@ -47,6 +47,7 @@ public class Home extends javax.swing.JFrame {
     /**
      * Creates new form Home
      */
+    boolean ligado = false;
     ControlePorta arduino;
     ArduinoDAO dao = new ArduinoDAO();
     ControlePorta arduino1;
@@ -95,24 +96,18 @@ public class Home extends javax.swing.JFrame {
         pnl_chart = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         StatusConexao = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
         panel_relatorio = new javax.swing.JPanel();
         pnl_conexao = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jBLedOn = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         Jbl_FeebackCon = new javax.swing.JLabel();
-        JBLedOff = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         pnl_detalhes = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jbl_LedVermelho = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jSeparator3 = new javax.swing.JSeparator();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jbl_LedVerde = new javax.swing.JLabel();
@@ -121,9 +116,9 @@ public class Home extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jButton3 = new javax.swing.JButton();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jLabel10 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -144,6 +139,7 @@ public class Home extends javax.swing.JFrame {
         home.setBackground(new java.awt.Color(255, 255, 255));
         home.setLayout(new javax.swing.BoxLayout(home, javax.swing.BoxLayout.LINE_AXIS));
 
+        pnl_home.setBackground(new java.awt.Color(255, 255, 255));
         pnl_home.setMaximumSize(new java.awt.Dimension(32760, 32767));
         pnl_home.setPreferredSize(new java.awt.Dimension(784, 39));
 
@@ -160,26 +156,23 @@ public class Home extends javax.swing.JFrame {
         pnl_homeLayout.setHorizontalGroup(
             pnl_homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_homeLayout.createSequentialGroup()
-                .addGap(244, 244, 244)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(215, Short.MAX_VALUE))
-            .addGroup(pnl_homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnl_homeLayout.createSequentialGroup()
-                    .addGap(222, 222, 222)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(166, Short.MAX_VALUE)))
+                .addContainerGap(213, Short.MAX_VALUE)
+                .addGroup(pnl_homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_homeLayout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(172, 172, 172))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_homeLayout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(217, 217, 217))))
         );
         pnl_homeLayout.setVerticalGroup(
             pnl_homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_homeLayout.createSequentialGroup()
-                .addGap(92, 92, 92)
+                .addGap(166, 166, 166)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(264, Short.MAX_VALUE))
-            .addGroup(pnl_homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnl_homeLayout.createSequentialGroup()
-                    .addGap(201, 201, 201)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(155, Short.MAX_VALUE)))
+                .addGap(76, 76, 76)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(220, Short.MAX_VALUE))
         );
 
         home.add(pnl_home);
@@ -263,7 +256,7 @@ public class Home extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(75, 75, 75)
                 .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,7 +267,7 @@ public class Home extends javax.swing.JFrame {
         );
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project16/Nova Pasta/if__house_snowglobe_1679641 (1).png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project16/Icons/icons8-light-automation-96.png"))); // NOI18N
 
         javax.swing.GroupLayout pnl_sidebarLayout = new javax.swing.GroupLayout(pnl_sidebar);
         pnl_sidebar.setLayout(pnl_sidebarLayout);
@@ -283,23 +276,23 @@ public class Home extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_sidebarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnl_sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(pnl_sidebarLayout.createSequentialGroup()
-                        .addGap(0, 22, Short.MAX_VALUE)
-                        .addGroup(pnl_sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_home, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_monitorar_consumo, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_conectar, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_resto, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(24, 24, 24))
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_sidebarLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnl_sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_home, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_monitorar_consumo, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_conectar, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_resto, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
         );
         pnl_sidebarLayout.setVerticalGroup(
             pnl_sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_sidebarLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(85, 85, 85)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(42, 42, 42)
                 .addComponent(btn_home, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_monitorar_consumo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -307,7 +300,7 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(btn_conectar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_resto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -338,16 +331,16 @@ public class Home extends javax.swing.JFrame {
         pnl_chart.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
         StatusConexao.setForeground(new java.awt.Color(255, 0, 51));
-        StatusConexao.setText("Desconectado");
+        StatusConexao.setText("     Desconectado");
         pnl_chart.add(StatusConexao, java.awt.BorderLayout.CENTER);
 
-        jButton1.setText("Atualizar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project16/Icons/icons8-sync-48.png"))); // NOI18N
+        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel9MouseClicked(evt);
             }
         });
-        pnl_chart.add(jButton1, java.awt.BorderLayout.LINE_END);
+        pnl_chart.add(jLabel9, java.awt.BorderLayout.LINE_START);
 
         panel_relatorio.setBackground(new java.awt.Color(255, 255, 255));
         panel_relatorio.setEnabled(false);
@@ -365,18 +358,13 @@ public class Home extends javax.swing.JFrame {
         jLabel5.setText("Clique no botao para se conectar:");
 
         jBLedOn.setBackground(new java.awt.Color(153, 255, 153));
-        jBLedOn.setText("Conectar");
+        jBLedOn.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Pictures\\icons8-disconnected-48.png")); // NOI18N
+        jBLedOn.setToolTipText("Clique para se conectar");
+        jBLedOn.setPressedIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Pictures\\icons8-connected-48.png")); // NOI18N
+        jBLedOn.setSelectedIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Pictures\\icons8-connected-48.png")); // NOI18N
         jBLedOn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBLedOnActionPerformed(evt);
-            }
-        });
-
-        jButton2.setBackground(new java.awt.Color(255, 0, 0));
-        jButton2.setText("Sair");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
             }
         });
 
@@ -384,73 +372,43 @@ public class Home extends javax.swing.JFrame {
 
         Jbl_FeebackCon.setText("Não Conectado");
 
-        JBLedOff.setText("Desconectar");
-        JBLedOff.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JBLedOffActionPerformed(evt);
-            }
-        });
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel9.setText("Conexão com o Arduino");
-
         javax.swing.GroupLayout pnl_conexaoLayout = new javax.swing.GroupLayout(pnl_conexao);
         pnl_conexao.setLayout(pnl_conexaoLayout);
         pnl_conexaoLayout.setHorizontalGroup(
             pnl_conexaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_conexaoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnl_conexaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnl_conexaoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel9)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
-            .addGroup(pnl_conexaoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnl_conexaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_conexaoLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(76, 76, 76))
-                    .addGroup(pnl_conexaoLayout.createSequentialGroup()
-                        .addGroup(pnl_conexaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addGroup(pnl_conexaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
                             .addGroup(pnl_conexaoLayout.createSequentialGroup()
                                 .addComponent(jLabel6)
-                                .addGap(27, 27, 27)
-                                .addComponent(Jbl_FeebackCon)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(42, 42, 42)
+                                .addComponent(Jbl_FeebackCon)
+                                .addGap(43, 43, 43)))))
+                .addGap(252, 252, 252))
             .addGroup(pnl_conexaoLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(322, 322, 322)
                 .addComponent(jBLedOn)
-                .addGap(40, 40, 40)
-                .addComponent(JBLedOff)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnl_conexaoLayout.setVerticalGroup(
             pnl_conexaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_conexaoLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jLabel9)
-                .addGap(16, 16, 16)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
+                .addContainerGap(79, Short.MAX_VALUE)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                .addGap(53, 53, 53)
                 .addGroup(pnl_conexaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(Jbl_FeebackCon))
-                .addGap(52, 52, 52)
+                    .addComponent(Jbl_FeebackCon)
+                    .addComponent(jLabel6))
+                .addGap(73, 73, 73)
                 .addComponent(jLabel5)
-                .addGap(33, 33, 33)
-                .addGroup(pnl_conexaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBLedOn)
-                    .addComponent(JBLedOff))
-                .addGap(70, 70, 70)
-                .addComponent(jButton2)
-                .addGap(31, 31, 31))
+                .addGap(73, 73, 73)
+                .addComponent(jBLedOn)
+                .addGap(128, 128, 128))
         );
 
         pnl_detalhes.setBackground(new java.awt.Color(255, 255, 255));
@@ -458,15 +416,12 @@ public class Home extends javax.swing.JFrame {
         pnl_detalhes.setEnabled(false);
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel14.setText("Total consumido Arduino:");
+        jLabel14.setText("Total consumido:");
         jLabel14.setPreferredSize(new java.awt.Dimension(180, 40));
 
         jLabel16.setText("Led Vermelho Tempo Total Consumido(seg):");
 
         jbl_LedVermelho.setText("0");
-
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel17.setText("Mais Detalhes Aplicação");
 
         jLabel18.setText("Led Verde Tempo Total Consumido (seg):");
 
@@ -501,93 +456,84 @@ public class Home extends javax.swing.JFrame {
 
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
 
-        jButton3.setText("Carregar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
 
         jLabel10.setText("Até");
+
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project16/Icons/icons8-search-48.png"))); // NOI18N
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnl_detalhesLayout = new javax.swing.GroupLayout(pnl_detalhes);
         pnl_detalhes.setLayout(pnl_detalhesLayout);
         pnl_detalhesLayout.setHorizontalGroup(
             pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_detalhesLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel19)
+                    .addComponent(jbl_LedAmarelo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbl_LedVermelho, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbl_LedVerde, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
                     .addGroup(pnl_detalhesLayout.createSequentialGroup()
-                        .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnl_detalhesLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel17)
-                                    .addComponent(jLabel16)
-                                    .addComponent(jLabel19)
-                                    .addGroup(pnl_detalhesLayout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jLabel18))
-                                    .addComponent(jbl_LedAmarelo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbl_LedVermelho, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbl_LedVerde, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                        .addGap(0, 462, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(pnl_detalhesLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jLabel10)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel13))
+                    .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pnl_detalhesLayout.createSequentialGroup()
+                            .addGap(28, 28, 28)
+                            .addComponent(jLabel10)))
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18))
+                .addContainerGap(452, Short.MAX_VALUE))
             .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_detalhesLayout.createSequentialGroup()
-                    .addContainerGap(271, Short.MAX_VALUE)
+                    .addContainerGap(261, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
         pnl_detalhesLayout.setVerticalGroup(
             pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_detalhesLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jLabel17)
-                .addGap(16, 16, 16)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
+                .addGap(58, 58, 58)
                 .addComponent(jLabel7)
-                .addGap(10, 10, 10)
+                .addGap(49, 49, 49)
                 .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
-                .addGap(3, 3, 3)
-                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
-                .addGap(18, 18, 18)
+                .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_detalhesLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel10)
+                        .addGap(18, 18, 18)
+                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnl_detalhesLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel13)))
+                .addGap(100, 100, 100)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_LedVermelho)
                 .addGap(18, 18, 18)
+                .addComponent(jLabel16)
+                .addGap(18, 18, 18)
+                .addComponent(jbl_LedVermelho)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbl_LedVerde)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbl_LedAmarelo)
                 .addGap(65, 65, 65))
             .addGroup(pnl_detalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_detalhesLayout.createSequentialGroup()
-                    .addContainerGap(107, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(68, Short.MAX_VALUE)))
+                    .addContainerGap(142, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(114, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -598,37 +544,38 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(pnl_sidebar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnl_chart, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
-                    .addComponent(pnl_conexao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(pnl_conexao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnl_chart, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(241, 241, 241)
-                    .addComponent(home, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(244, Short.MAX_VALUE)
+                    .addComponent(home, javax.swing.GroupLayout.PREFERRED_SIZE, 729, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 236, Short.MAX_VALUE)
-                    .addComponent(panel_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 749, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 244, Short.MAX_VALUE)
+                    .addComponent(panel_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 234, Short.MAX_VALUE)
+                    .addGap(0, 244, Short.MAX_VALUE)
                     .addComponent(pnl_detalhes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnl_sidebar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(pnl_chart, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnl_chart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
                 .addComponent(pnl_conexao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(185, Short.MAX_VALUE)
-                    .addComponent(home, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(21, 21, 21)))
+                    .addGap(0, 64, Short.MAX_VALUE)
+                    .addComponent(home, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 62, Short.MAX_VALUE)
+                    .addGap(0, 66, Short.MAX_VALUE)
                     .addComponent(panel_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -738,43 +685,7 @@ public class Home extends javax.swing.JFrame {
 //        grafico.setVisible(true);
         return grafico;
     }//GEN-LAST:event_btn_monitorar_consumoMouseClicked
-
-    private void jBLedOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLedOnActionPerformed
-        // conn.comunicacaoArduino(jBLedOn);
-        Jbl_FeebackCon.setForeground(Color.green);
-        StatusConexao.setForeground(Color.green);
-        try {
-            arduino1 = new ControlePorta("COM3", 9600);
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-        }
-
-        //arduino
-        String status = StatusConexao.getText();
-        if (status.equals("Desconectado")) {
-            //arduino 
-            Jbl_FeebackCon.setText("Conectado");
-            StatusConexao.setText("Conectado");
-
-//            conn.initialize();
-            Thread t = new Thread() {
-                public void run() {
-                    //the following line will keep this app alive for 1000 seconds,
-                    //waiting for events to occur and responding to them (printing incoming messages to console).
-                    try {
-                        Thread.sleep(1000000);
-                    } catch (InterruptedException ie) {
-                    }
-                }
-            };
-            t.start();
-            System.out.println("Started");
-    }//GEN-LAST:event_jBLedOnActionPerformed
-    }
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    
 
     private void btn_restoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_restoMouseClicked
 
@@ -794,17 +705,68 @@ public class Home extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_homeMouseClicked
 
-    private void JBLedOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBLedOffActionPerformed
-        // conn.comunicacaoArduino(JBLedOff);
+    private void btn_conectarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_conectarMousePressed
+        // TODO add your handling code here:
+        setLblColor(btn_conectar);
+        resetLblColor(btn_monitorar_consumo);
+        resetLblColor(btn_resto);
+        resetLblColor(btn_home);
+    }//GEN-LAST:event_btn_conectarMousePressed
 
-        Jbl_FeebackCon.setForeground(Color.red);
-        Jbl_FeebackCon.setText("Desconected");
-        StatusConexao.setText("Desconected");
-        StatusConexao.setForeground(Color.red);
-        arduino1.close();
-    }//GEN-LAST:event_JBLedOffActionPerformed
+    private void btn_conectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_conectarMouseClicked
+        pnl_conexao.setVisible(true);
+        pnl_chart.setVisible(false);
+        pnl_detalhes.setVisible(false);
+        jLabel1.setVisible(true);
+        pnl_chart.setVisible(true);
+    }//GEN-LAST:event_btn_conectarMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jBLedOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLedOnActionPerformed
+
+        if(ligado == false){
+
+            // conn.comunicacaoArduino(jBLedOn);
+            Jbl_FeebackCon.setForeground(Color.green);
+            StatusConexao.setForeground(Color.green);
+            try {
+                arduino1 = new ControlePorta("COM3", 9600);
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
+            }
+
+            //arduino
+            String status = StatusConexao.getText().trim();
+            if (status.equals("Desconectado")) {
+                //arduino
+                Jbl_FeebackCon.setText("Conectado");
+                StatusConexao.setText("Conectado");
+
+                //            conn.initialize();
+                Thread t = new Thread() {
+                    public void run() {
+                        //the following line will keep this app alive for 1000 seconds,
+                        //waiting for events to occur and responding to them (printing incoming messages to console).
+                        try {
+                            Thread.sleep(1000000);
+                        } catch (InterruptedException ie) {
+                        }
+                    }
+                };
+                t.start();
+                System.out.println("Started");
+            }else{
+                // conn.comunicacaoArduino(JBLedOff);
+
+                Jbl_FeebackCon.setForeground(Color.red);
+                Jbl_FeebackCon.setText("Desconectado");
+                StatusConexao.setText("Desconectado");
+                StatusConexao.setForeground(Color.red);
+                arduino1.close();
+            }
+        }
+    }//GEN-LAST:event_jBLedOnActionPerformed
+
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         double tempoLedVermelho = 0;
         double tempoLedAmarelo = 0;
         double tempoLedVerde = 0;
@@ -849,40 +811,22 @@ public class Home extends javax.swing.JFrame {
         jbl_LedVerde.setText("" + tempoLedVerde);
         jbl_LedAmarelo.setText("" + tempoLedAmarelo);
        
-
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void btn_conectarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_conectarMousePressed
         // TODO add your handling code here:
-        setLblColor(btn_conectar);
-        resetLblColor(btn_monitorar_consumo);
-        resetLblColor(btn_resto);
-        resetLblColor(btn_home);
-    }//GEN-LAST:event_btn_conectarMousePressed
+    }//GEN-LAST:event_jLabel9MouseClicked
 
-    private void btn_conectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_conectarMouseClicked
-        pnl_conexao.setVisible(true);
-        pnl_chart.setVisible(false);
-        pnl_detalhes.setVisible(false);
-        jLabel1.setVisible(true);
-        pnl_chart.setVisible(true);
-    }//GEN-LAST:event_btn_conectarMouseClicked
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String pSql01 = jFormattedTextField1.getText();
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+         String pSql01 = jFormattedTextField1.getText();
         tableModel.clear();
         String pSql02 = jFormattedTextField2.getText();
         List<ModelArduino> listAr = dao.loadFromData(pSql01,pSql02);
-        
+
         for (ModelArduino modelArduino : listAr) {
             tableModel.addRow(modelArduino);
         }
-       
+
         jTable1.repaint();
-        
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jLabel13MouseClicked
 
     public void setLblColor(JLabel lbl) {
         lbl.setForeground(new Color(48, 201, 235));
@@ -988,7 +932,6 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton JBLedOff;
     private javax.swing.JLabel Jbl_FeebackCon;
     private javax.swing.JLabel StatusConexao;
     private javax.swing.JLabel btn_conectar;
@@ -997,17 +940,14 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel btn_resto;
     private javax.swing.JPanel home;
     private javax.swing.JButton jBLedOn;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -1021,8 +961,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel jbl_LedAmarelo;
     private javax.swing.JLabel jbl_LedVerde;

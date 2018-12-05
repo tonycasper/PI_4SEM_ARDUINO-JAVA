@@ -151,8 +151,8 @@ public class ArduinoDAO {
 
         try {
          stmt = con.prepareStatement("SELECT * FROM tbl_monitoracao WHERE tbl_monitoracao.data_marcacao BETWEEN ? and ?");
-            stmt.setString(1, data1);
-            stmt.setString(2, data2);
+            stmt.setString(2, data1);
+            stmt.setString(1, data2);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
